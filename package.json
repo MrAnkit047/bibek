@@ -2,10 +2,8 @@
   "name": "bibek-birthday",
   "version": "1.0.0",
   "description": "Happy Birthday Bibek",
-  "main": "server.js",
   "scripts": {
     "dev": "node server.js",
-    "start": "node server.js"
+    "build": "echo 'Static build'"
   }
 }
-

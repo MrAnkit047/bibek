@@ -1293,12 +1293,12 @@
         ["May every silent prayer of yours turn into a beautiful reality 💕💕", "Forever yours"]
       ],
       memories: [
-        { type: "photo", src: "WhatsApp Image 2026-10-29 at 22.03.25.jpeg", cap: "Just a little boy  who grew up to be my favorite man😻" },
-        { type: "photo", src: "WhatsApp Image 2026-10-29 at 22.03.26.jpeg", cap: "My nepali gentleman" },
-        { type: "video", src: "WhatsApp Video 2026-10-29 at 22.07.08.mp4", cap: "Forever Crushing you" },
-        { type: "photo", src: "WhatsApp Image 2026-10-29 at 22.03.27.jpeg", cap: "The man I admire" },
-        { type: "photo", src: "WhatsApp Image 2026-10-29 at 22.04.50.jpeg", cap: "My favourite photo" },
-        { type: "video", src: "WhatsApp Video 2026-10-29 at 22.06.40.mp4", cap: "Sweetest Weakness" }
+        { type: "photo", src: "photo1.jpeg", cap: "Just a little boy  who grew up to be my favorite man😻" },
+        { type: "photo", src: "photo2.jpeg", cap: "My nepali gentleman" },
+        { type: "video", src: "video1.mp4", cap: "Forever Crushing you" },
+        { type: "photo", src: "photo3.jpeg", cap: "The man I admire" },
+        { type: "photo", src: "photo4.jpeg", cap: "My favourite photo" },
+        { type: "video", src: "video2.mp4", cap: "Sweetest Weakness" }
       ],
       reasons: [
         "You're my fav kina bhaney, you're such a family boy that makes me fall for you even more.",
@@ -1354,8 +1354,8 @@
     $('#gallery').innerHTML = C.memories.map((p, i) => {
       const src = cleanPath(p.src);
       const media = p.type === 'video'
-        ? `<video src="${esc(encodeURI(src))}#t=0.5" preload="metadata" muted playsinline onerror="this.style.opacity='0.25'"></video><span class="play">▶</span>`
-        : `<img src="${esc(encodeURI(src))}" alt="${esc(p.cap)}" loading="lazy" onerror="this.style.opacity='0.25'">`;
+        ? `<video src="${esc(src)}#t=0.5" preload="metadata" muted playsinline onloadeddata="try{this.currentTime=0.5}catch(e){}" onerror="this.style.opacity='0.25'"></video><span class="play">▶</span>`
+        : `<img src="${esc(src)}" alt="${esc(p.cap)}" loading="lazy" onerror="this.style.opacity='0.25'">`;
       const dateLabel = (p.date && p.date !== 'Add date') ? p.date : '';
       const meta = p.type === 'video' ? (dateLabel ? 'VIDEO · ' + dateLabel : 'VIDEO') : dateLabel;
       return `<figure class="pol" data-i="${i}"><div class="ph">${media}</div><figcaption>${esc(p.cap)}${meta ? `<small>${esc(meta)}</small>` : ''}</figcaption></figure>`;
@@ -1406,7 +1406,7 @@
     function resume() { if (musicWas) { bgm.play().catch(() => { }); musicWas = false } }
     function show(i) {
       const m = C.memories[i]; cur = i; clearTimeout(ssT); lbCap.textContent = m.cap;
-      const src = encodeURI(cleanPath(m.src));
+      const src = cleanPath(m.src);
       if (m.type === 'video') {
         lbImg.style.display = 'none';
         lbVid.style.display = 'block';
@@ -1573,8 +1573,21 @@
       burst(180); balloons(); setTimeout(() => burst(110, fc.width * .2, fc.height * .4), 350); setTimeout(() => burst(110, fc.width * .8, fc.height * .4), 600);
       setTimeout(() => { $('#gate').classList.add('gone'); document.body.classList.add('live'); setTimeout(async () => { await typeEl(hbSt, 75, () => false); await sleep(150); await typeEl(heroSt, 150, () => false) }, 700) }, 1100)
     }
-    $('#cake').onclick = open; $('#blow').onclick = open;
-    mute.onclick = () => { if (bgm.paused) { bgm.play().catch(() => { }) } else { bgm.pause() } };
+    $('#cake').onclick = open; $('#blow').onclick = open; $('#gate').onclick = open;
+    mute.onclick = () => {
+      if (bgm.paused) {
+        mute.dataset.manualPause = '';
+        bgm.play().catch(() => { });
+      } else {
+        mute.dataset.manualPause = '1';
+        bgm.pause();
+      }
+    };
+    addEventListener('pointerdown', () => {
+      if (opened && bgm.paused && !mute.dataset.manualPause) {
+        bgm.play().catch(() => { });
+      }
+    }, { passive: true });
     bgm.addEventListener('play', () => document.body.classList.add('mus')); bgm.addEventListener('pause', () => document.body.classList.remove('mus'));
     $('#wishBtn').onclick = e => { const b = e.currentTarget, r = b.getBoundingClientRect(); burst(150, r.left + r.width / 2, r.top); b.textContent = 'Wish made ✨'; clearTimeout(b._t); b._t = setTimeout(() => b.textContent = 'Make a wish', 2600) };
   </script>
