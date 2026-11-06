@@ -4,6 +4,6 @@
   "description": "Happy Birthday Bibek",
   "scripts": {
     "dev": "node server.js",
-    "build": "echo 'Static build'"
+    "build": "node build.js"
   }
 }

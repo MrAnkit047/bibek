@@ -1,0 +1,9 @@
+{
+  "name": "bibek-birthday",
+  "version": "1.0.0",
+  "description": "Happy Birthday Bibek",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "node build.js"
+  }
+}
